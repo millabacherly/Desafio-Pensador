@@ -1,0 +1,15 @@
+CREATE DATABASE o_pensador;
+
+CREATE TABLE IF NOT EXISTS users (
+  id SERIAL PRIMARY KEY,
+  username TEXT NOT NULL UNIQUE,
+  email TEXT NOT NULL UNIQUE,
+  password TEXT NOT NULL 
+);
+
+CREATE TABLE IF NOT EXISTS thoughts (
+  id SERIAL PRIMARY KEY,
+	quote TEXT NOT NULL,
+    quote_date TIMESTAMP NOT NULL
+)
+  
