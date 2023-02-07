@@ -1,11 +1,9 @@
 const express = require('express');
+const router = require('./routes/routes');
 
 const app = express();
 
 app.use(express.json());
-
-app.get("/", (req,res) => {
-    return res.send({message: "O app está ok"})
-})
+app.use(router);
 
 app.listen(3000);
