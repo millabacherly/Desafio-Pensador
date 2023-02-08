@@ -107,9 +107,27 @@ const editUser = async(req,res) => {
     }
 }
 
+const viewUser = async(req,res) => {
+    const { user } = req;
+
+    try {
+        const userLocated = await knex('users').where({ id: user.id}).first();
+
+        if (!userLocated) {
+            return res.status(400).json({ message: 'User not found'});
+        }
+
+        const { password, ...userLocatedData } = userLocated;
+
+        return res.status(200).json(userLocatedData);
+    } catch (error) {
+        return res.status(500).json({ message: "Internal server error" + error.message })
+    }
+}
 
 module.exports = {
     registerUser,
     login,
-    editUser
+    editUser,
+    viewUser
 }
