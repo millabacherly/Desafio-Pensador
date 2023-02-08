@@ -10,7 +10,7 @@ const registerUser = async (req, res) => {
         const emailExists = await knex('users').where({ email }).first();
 
         if (emailExists) {
-            return res.status(400).json({ message: "Email already exists!" });
+            return res.status(400).json({ message: 'Email already exists!' });
         }
 
         const encryptedPassword = await bcrypt.hash(password, 10)
@@ -21,7 +21,7 @@ const registerUser = async (req, res) => {
             password: encryptedPassword
         })
 
-        return res.status(200).json({ message: "User registered successfully" });
+        return res.status(200).json({ message: 'User registered successfully' });
 
     } catch (error) {
         return res.status(500).json({ message: 'Internal server error' + error.message });
@@ -35,13 +35,13 @@ const login = async(req, res) => {
         const user = await knex('users').where({ username }).first();
 
         if(!user) {
-            return res.status(404).json({message: "User not found"})
+            return res.status(404).json({message: 'User not found'})
         }
 
         const correctPassword = await bcrypt.compare(password, user.password);
 
         if(!correctPassword) {
-            return res.status(404).json({message: "Email or password is invalid"});
+            return res.status(404).json({message: 'Email or password is invalid'});
         }
 
         const dataTokenUser = {
@@ -59,7 +59,7 @@ const login = async(req, res) => {
         })
 
     } catch (error) {
-        return res.status(500).json({ message: "Internal server error   " + error.message })
+        return res.status(500).json({ message: 'Internal server error' + error.message })
     }
 }
 
@@ -85,7 +85,7 @@ const editUser = async(req,res) => {
             return res.status(400).json({message: 'Email already registered'});
         }
 
-        const userData = await knex('users'). where({ id: user.id }).first();
+        const userData = await knex('users').where({ id: user.id }).first();
 
         let encryptedPassword;
 
@@ -103,7 +103,7 @@ const editUser = async(req,res) => {
 
         return res.status(200).json(updateUser);
     } catch (error) {
-        return res.status(500).json({ message: "Internal server error" + error.message })
+        return res.status(500).json({ message: 'Internal server error' + error.message })
     }
 }
 
@@ -121,7 +121,26 @@ const viewUser = async(req,res) => {
 
         return res.status(200).json(userLocatedData);
     } catch (error) {
-        return res.status(500).json({ message: "Internal server error" + error.message })
+        return res.status(500).json({ message: 'Internal server error' + error.message })
+    }
+}
+
+const deleteUser = async(req, res) => {
+    const { user } = req;
+
+    try {
+        const localizeUser = await knex('users').where({id: user.id}).first();
+
+        if (!localizeUser) {
+            return res.status(400).json({message: 'User not found'});
+        }
+
+        await knex('users').where({ id: user.id }).del();
+
+        return res.status(200).json({message: 'User deleted'})
+
+    } catch (error) {
+        return res.status(500).json({ message: 'Internal server error' + error.message })
     }
 }
 
@@ -129,5 +148,6 @@ module.exports = {
     registerUser,
     login,
     editUser,
-    viewUser
+    viewUser, 
+    deleteUser
 }
