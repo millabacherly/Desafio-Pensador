@@ -63,7 +63,53 @@ const login = async(req, res) => {
     }
 }
 
+const editUser = async(req,res) => {
+    const { user } = req;
+
+    const { username, email, password } = req.body;
+
+    if (!username || !email) {
+        return res.status(400).json({ message: 'Required field'});
+    }
+
+    try {
+        const userFound = await knex('users').where({ username }).andWhere('id', '!=', user.id).first();
+
+        const emailFound = await knex('users').where({ email }).andWhere('id', '!=', user.id).first();
+
+        if (userFound) {
+            return res.status(400).json({message: 'User already registered'});
+        }
+
+        if (emailFound) {
+            return res.status(400).json({message: 'Email already registered'});
+        }
+
+        const userData = await knex('users'). where({ id: user.id }).first();
+
+        let encryptedPassword;
+
+        if (!password) {
+            encryptedPassword = userData.password;
+        } else {
+            encryptedPassword = await bcrypt.hash(password, 10);
+        }
+
+        const updateUser = await knex('users').update({
+            username,
+            email,
+            password: encryptedPassword
+        }).where('id', user.id);
+
+        return res.status(200).json(updateUser);
+    } catch (error) {
+        return res.status(500).json({ message: "Internal server error" + error.message })
+    }
+}
+
+
 module.exports = {
     registerUser,
-    login
+    login,
+    editUser
 }
