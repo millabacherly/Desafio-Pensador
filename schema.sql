@@ -10,6 +10,6 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS thoughts (
   id SERIAL PRIMARY KEY REFERENCES users(id),
 	quote TEXT NOT NULL,
-    quote_date TIMESTAMP NOT NULL
+  quote_date TIMESTAMP DEFAULT now()
 )
   
