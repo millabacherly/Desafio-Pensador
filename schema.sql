@@ -8,8 +8,10 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE TABLE IF NOT EXISTS thoughts (
-  id SERIAL PRIMARY KEY REFERENCES users(id),
-	quote TEXT NOT NULL,
-  quote_date TIMESTAMP DEFAULT now()
+  id SERIAL PRIMARY KEY,
+  id_quote INTEGER REFERENCES users(id) not null,
+  quote TEXT NOT NULL,
+  quote_date TIMESTAMP DEFAULT now(),
+  likes integer
 )
   
