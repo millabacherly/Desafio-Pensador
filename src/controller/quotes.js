@@ -61,7 +61,48 @@ const editQuote = async(req, res) => {
     }
 }
 
+const viewQuote = async(req,res) => {
+    try {
+
+        const viewQuotes = await knex('thoughts').orderBy('quote_date');
+
+        return res.status(200).json(viewQuotes);
+        
+    } catch (error) {
+        return res.status(500).json({ message: 'Internal server error' + error.message })
+    }
+}
+
+const deleteQuote = async(req,res) => {
+    const { user, quote } = req;
+
+    const { id } = req.params;
+
+    try {
+        const localizeUser = await knex('users').where({id: user.id}).first();
+       
+        const localizeQuote = await knex('thoughts').where({id}).first();
+
+        if (!localizeQuote) {
+            return res.status(400).json({message: 'Quote not found'});
+        } 
+        
+        if (localizeUser.id !== localizeQuote.id_quote) {
+            return res.status(400).json({message: 'You can´t delete another users quote'});
+        }
+
+        await knex('thoughts').where({id}).del();
+
+        return res.status(200).json({message: 'Quote deleted successfully'});
+        
+    } catch (error) {
+        return res.status(500).json({ message: 'Internal server error' + error.message })
+    }
+}
+
 module.exports = {
     registerQuote,
-    editQuote
+    editQuote,
+    viewQuote,
+    deleteQuote
 }

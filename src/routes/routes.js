@@ -1,7 +1,7 @@
 const express = require('express');
 
 const { registerUser, login, editUser, viewUser, deleteUser } = require('../controller/users');
-const { registerQuote, editQuote } = require('../controller/quotes');
+const { registerQuote, editQuote, viewQuote, deleteQuote } = require('../controller/quotes');
 const tokenValidation = require('../middleware/tokenValidation');
 
 const router = express();
@@ -17,5 +17,7 @@ router.delete('/user', deleteUser);
 
 router.post('/quotes', registerQuote);
 router.put('/quotes/:id', editQuote); 
+router.get('/quotes', viewQuote);
+router.delete('/quotes/:id', deleteQuote);
 
 module.exports = router;
