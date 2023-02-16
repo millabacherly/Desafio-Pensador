@@ -18,7 +18,8 @@ const registerQuote = async(req, res) => {
 
         const addQuote = await knex('thoughts').insert({ 
             id_quote: user.id,
-            quote
+            quote,
+            likes: 0
         })
 
         return res.status(201).json({ message: 'Quote created sucessfully!'});
