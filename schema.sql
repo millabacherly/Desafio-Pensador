@@ -12,6 +12,6 @@ CREATE TABLE IF NOT EXISTS thoughts (
   id_quote INTEGER REFERENCES users(id) not null,
   quote TEXT NOT NULL,
   quote_date TIMESTAMP DEFAULT now(),
-  likes integer
+  likes integer 
 )
   

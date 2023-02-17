@@ -1,3 +1,4 @@
+const { func } = require('joi');
 const knex = require('../database/connection');
 
 const registerQuote = async(req, res) => {
@@ -75,7 +76,7 @@ const viewQuote = async(req,res) => {
 }
 
 const deleteQuote = async(req,res) => {
-    const { user, quote } = req;
+    const { user } = req;
 
     const { id } = req.params;
 
@@ -101,9 +102,33 @@ const deleteQuote = async(req,res) => {
     }
 }
 
+const likeQuote = async(req,res) => {
+    const { likes } = req;
+
+    const { id } = req.params;
+
+    try {
+        const localizeQuote = await knex('thoughts').where({id}).first();
+
+        if (!localizeQuote) {
+            return res.status(400).json({message: 'Quote not found'});
+        } 
+
+        let quoteLikes = localizeQuote.likes;
+
+        const addLike = await knex('thoughts').update({ likes: quoteLikes + 1}).where({id});
+
+        return res.status(200).json({message: 'Liked!'});
+        
+    } catch (error) {
+        return res.status(500).json({ message: 'Internal server error' + error.message })
+    }
+}
+
 module.exports = {
     registerQuote,
     editQuote,
     viewQuote,
-    deleteQuote
+    deleteQuote,
+    likeQuote
 }
