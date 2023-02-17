@@ -1,4 +1,16 @@
-Documentação do projeto NodeJS - Backend Developer - Desafio O Pensador
+<h3> Desafio O Pensador - Projeto Backend</h3>
+
+Tecnologias utilizadas:
+
+- <a href="https://javascript.info/document">Javascript</a>
+- <a href="https://nodejs.org/en/docs/">Node.js</a>
+- <a href="https://expressjs.com/">Express.js</a>
+- <a href="https://www.npmjs.com/package/bcrypt">Bcrypt</a>
+- <a href="https://www.postgresql.org/">PostgreSQL</a>
+- <a href="https://www.npmjs.com/package/nodemon">Nodemon</a>
+- <a href="https://knexjs.org/guide/query-builder.html#knex">Knex</a>
+
+<h3> Endpoints </h3> 
 
 [Usuário] Cadastro do usuário
 
@@ -46,7 +58,6 @@ Senha encriptada:
 Envia ao banco de dados os seguintes dados atualizados do usuário, username, email e senha encriptada;
 
 Retorna os dados atualizados;
-
 
 [Visualizar] Visualização da conta 
 
