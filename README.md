@@ -68,7 +68,7 @@ Bloco de trycatch que valida se o usuário foi encontrado, retornando uma mensag
 Se localizado, traz a senha e os dados de usuário;
 
 
-[Deletar] Deleção da conta 
+[Deletar] Deleta a conta  do usuário logado
 
 Função assíncrona que traz o usuário direto da requisição;
 
